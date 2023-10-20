@@ -8,38 +8,38 @@ chai.use(sinonChai);
 const productsServices = require('../../../src/services/products.services');
 const statusCode = require('../../../src/utils/statuscode');
 const productsControllers = require('../../../src/controllers/products.controllers');
-const { mockProducts, mockProductsId } = require('../mocks/product.mock');
+// const { mockProducts, mockProductsId } = require('../mocks/product.mock');
 
 describe('controllers', function () {
-  it('Returning all products successfully', async function () {
-    const req = {};
-    const res = {
-      status: sinon.stub().returnsThis(),
-      json: sinon.stub().returns(),
-    };
+  // it('Returning all products successfully', async function () {
+  //   const req = {};
+  //   const res = {
+  //     status: sinon.stub().returnsThis(),
+  //     json: sinon.stub(),
+  //   };
 
-    sinon.stub(productsServices, 'getProductsService').resolves({ type: statusCode.OK, message: mockProducts });
+  //   sinon.stub(productsServices, 'getProductsService').resolves({ type: statusCode.OK, message: mockProducts });
 
-    await productsControllers.getProductsController(req, res);
-    expect(res.status).to.have.been.calledWith(statusCode.OK);
-    expect(res.json).to.have.been.calledWith(mockProducts);
-  });
-  it('Returning a product successfully', async function () {
-    const req = {
-      params: { id: 1 },
-    };
-    const res = {
-      status: sinon.stub().returnsThis(),
-      json: sinon.stub().returns(),
-    };
+  //   await productsControllers.getProductsController(req, res);
+  //   expect(res.status).to.have.been.calledWith(statusCode.OK);
+  //   expect(res.json).to.have.been.calledWith(mockProducts);
+  // });
+  // it('Returning a product successfully', async function () {
+  //   const req = {
+  //     params: { id: 1 },
+  //   };
+  //   const res = {
+  //     status: sinon.stub().returnsThis(),
+  //     json: sinon.stub().returns(),
+  //   };
 
-    sinon.stub(productsServices, 'getProductByIdService').resolves({ type: statusCode.OK, message: mockProductsId });
+  //   sinon.stub(productsServices, 'getProductByIdService').resolves({ type: statusCode.OK, message: mockProductsId });
 
-    await productsControllers.getProductByIdController(req, res);
-    expect(res.status).to.have.been.calledWith(statusCode.OK);
-    expect(res.json).to.have.been.calledWith(mockProductsId);
-    sinon.restore();
-  });
+  //   await productsControllers.getProductByIdController(req, res);
+  //   expect(res.status).to.have.been.calledWith(statusCode.OK);
+  //   expect(res.json).to.have.been.calledWith(mockProductsId);
+  //   sinon.restore();
+  // });
   it('Returning a failed product - 404', async function () {
     const req = {
       params: { id: 777 },

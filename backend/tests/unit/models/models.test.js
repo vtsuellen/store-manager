@@ -9,13 +9,13 @@ const { mockProducts } = require('../mocks/product.mock');
 const { getProductsModel, getProductsByIdModel } = require('../../../src/models/products.model');
 
 describe('Models', function () {
-  it('1 - tests if getAllProductsModel function returns all products', async function () {
+  it('getAllProductsModel function returns all products', async function () {
     sinon.stub(connection, 'execute').resolves(mockProducts);
     await getProductsModel();
     expect(connection.execute.called).to.be.equal(true);
     sinon.restore();
   });
-  it('2 - tests if getAllProductByIdModel function returns product by id', async function () {
+  it('getAllProductByIdModel function returns product by id', async function () {
     sinon.stub(connection, 'execute').resolves(mockProducts);
     await getProductsByIdModel(1);
     expect(connection.execute.called).to.be.equal(true);
