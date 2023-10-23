@@ -1,4 +1,5 @@
-const { getSalesByIdServices, getSalesServices } = require('../services/sales.services');
+const { getSalesByIdServices, 
+  getSalesServices, registerNewSalesServices } = require('../services/sales.services');
 const statusCode = require('../utils/statuscode');
 
 const getSalesController = async (_req, res) => {
@@ -23,7 +24,18 @@ const getSalesByIdController = async (req, res) => {
   }
 };
 
+const RegisterNewSalesController = async (req, res) => {
+  try {
+    const { type, message } = await registerNewSalesServices(req.body);
+    return res.status(type).json(message);
+  } catch (error) {
+    return res.status(statusCode.INTERNAL_SERVER_ERROR)
+      .json({ error });
+  }
+};
+
 module.exports = {
   getSalesController,
   getSalesByIdController,
+  RegisterNewSalesController,
 };

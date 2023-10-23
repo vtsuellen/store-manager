@@ -22,7 +22,21 @@ const getSalesByIdModel = async (id) => {
   return (sales);
 };
 
+const RegisterSaleModel = async () => {
+  const [data] = await connection.execute('INSERT INTO sales VALUES ()');
+  return data.insertId;
+};
+
+const RegisterNewSaleModel = async (saleId, productId, quantity) => {
+  await connection.execute(
+    'INSERT INTO sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)',
+    [saleId, productId, quantity],
+  );
+};
+
 module.exports = {
   getSalesMode,
   getSalesByIdModel,
+  RegisterSaleModel,
+  RegisterNewSaleModel,
 };

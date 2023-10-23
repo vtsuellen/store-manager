@@ -1,4 +1,5 @@
-const { getSalesMode, getSalesByIdModel } = require('../models/sales.model');
+const { getSalesMode,
+  getSalesByIdModel, RegisterNewSaleModel, RegisterSaleModel } = require('../models/sales.model');
 const statusCode = require('../utils/statuscode');
 
 const getSalesServices = async () => {
@@ -14,7 +15,18 @@ const getSalesByIdServices = async (id) => {
   return { type: statusCode.OK, message: sale };
 };
 
+const registerNewSalesServices = async (itemsSold) => {
+  const id = await RegisterSaleModel();
+
+  itemsSold.map(async (salesProducts) => {
+    const { productId, quantity } = salesProducts;
+    await RegisterNewSaleModel(id, productId, quantity);
+  });
+  return { type: statusCode.CREATED, message: { id, itemsSold } };
+};
+
 module.exports = {
   getSalesServices,
   getSalesByIdServices,
+  registerNewSalesServices,
 };
