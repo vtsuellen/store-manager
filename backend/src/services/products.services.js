@@ -16,11 +16,11 @@ const getProductByIdService = async (id) => {
 };
 
 const createProductService = async (product) => {
-  if (!product.name) return { type: statusCode.BAD_REQUEST, message: statusCode.BAD_REQUEST };
+  if (!product.name) return { type: statusCode.BAD_REQUEST, message: '"name" is required' };
   if (product.name.length < 5) {
     return {
       type: statusCode.UNPROCESSABLE_ENTITY,
-      message: statusCode.UNPROCESSABLE_ENTITY,
+      message: '"name" length must be at least 5 characters long',
     }; 
   }
   const result = await createProductModel(product.name);

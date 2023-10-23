@@ -51,7 +51,7 @@ describe('Controllers Products', function () {
   
     const response = {
       type: statusCode.BAD_REQUEST, 
-      message: statusCode.BAD_REQUEST,
+      message: '"name" is required',
     };
   
     sinon.stub(productsServices, 'createProductService').resolves(response);
