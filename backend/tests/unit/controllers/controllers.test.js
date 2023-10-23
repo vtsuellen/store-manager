@@ -8,38 +8,8 @@ chai.use(sinonChai);
 const productsServices = require('../../../src/services/products.services');
 const statusCode = require('../../../src/utils/statuscode');
 const productsControllers = require('../../../src/controllers/products.controllers');
-// const { mockProducts, mockProductsId } = require('../mocks/product.mock');
 
-describe('controllers', function () {
-  // it('Returning all products successfully', async function () {
-  //   const req = {};
-  //   const res = {
-  //     status: sinon.stub().returnsThis(),
-  //     json: sinon.stub(),
-  //   };
-
-  //   sinon.stub(productsServices, 'getProductsService').resolves({ type: statusCode.OK, message: mockProducts });
-
-  //   await productsControllers.getProductsController(req, res);
-  //   expect(res.status).to.have.been.calledWith(statusCode.OK);
-  //   expect(res.json).to.have.been.calledWith(mockProducts);
-  // });
-  // it('Returning a product successfully', async function () {
-  //   const req = {
-  //     params: { id: 1 },
-  //   };
-  //   const res = {
-  //     status: sinon.stub().returnsThis(),
-  //     json: sinon.stub().returns(),
-  //   };
-
-  //   sinon.stub(productsServices, 'getProductByIdService').resolves({ type: statusCode.OK, message: mockProductsId });
-
-  //   await productsControllers.getProductByIdController(req, res);
-  //   expect(res.status).to.have.been.calledWith(statusCode.OK);
-  //   expect(res.json).to.have.been.calledWith(mockProductsId);
-  //   sinon.restore();
-  // });
+describe('Controllers Products', function () {
   it('Returning a failed product - 404', async function () {
     const req = {
       params: { id: 777 },
@@ -64,6 +34,43 @@ describe('controllers', function () {
     };
 
     sinon.stub(productsServices, 'getProductByIdService').resolves({ type: statusCode.INTERNAL_SERVER_ERROR, message: 'Internal Server Error' });
+
+    await productsControllers.getProductByIdController(req, res);
+    expect(res.status).to.have.been.calledWith(statusCode.INTERNAL_SERVER_ERROR);
+    expect(res.json).to.have.been.calledWith({ message: 'Internal Server Error' });
+    sinon.restore();
+  });
+  it('create error BAD_REQUEST', async function () {
+    const req = {
+      body: {},
+    };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub().returns(),
+    };
+  
+    const response = {
+      type: statusCode.BAD_REQUEST, 
+      message: statusCode.BAD_REQUEST,
+    };
+  
+    sinon.stub(productsServices, 'createProductService').resolves(response);
+  
+    await productsControllers.createProductController(req, res);
+    expect(res.status).to.have.been.calledWith(response.type);
+    expect(res.json).to.have.been.calledWith({ message: response.message });
+    sinon.restore();
+  });
+  it('create error UNPROCESSABLE_ENTITY ', async function () {
+    const req = {
+      body: {},
+    };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub().returns(),
+    };
+
+    sinon.stub(productsServices, 'createProductService').resolves({ type: statusCode.INTERNAL_SERVER_ERROR, message: 'Internal Server Error' });
 
     await productsControllers.getProductByIdController(req, res);
     expect(res.status).to.have.been.calledWith(statusCode.INTERNAL_SERVER_ERROR);

@@ -8,14 +8,14 @@ const connection = require('../../../src/models/connection');
 const { mockProducts } = require('../mocks/product.mock');
 const { getProductsModel, getProductsByIdModel } = require('../../../src/models/products.model');
 
-describe('Models', function () {
-  it('getAllProductsModel function returns all products', async function () {
+describe('Models Products', function () {
+  it('getProductsModel function returns all products', async function () {
     sinon.stub(connection, 'execute').resolves(mockProducts);
     await getProductsModel();
     expect(connection.execute.called).to.be.equal(true);
     sinon.restore();
   });
-  it('getAllProductByIdModel function returns product by id', async function () {
+  it('getProductByIdModel function returns product by id', async function () {
     sinon.stub(connection, 'execute').resolves(mockProducts);
     await getProductsByIdModel(1);
     expect(connection.execute.called).to.be.equal(true);

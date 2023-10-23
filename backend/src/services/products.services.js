@@ -1,5 +1,6 @@
 const statusCode = require('../utils/statuscode');
-const { getProductsByIdModel, getProductsModel } = require('../models/products.model');
+const { getProductsByIdModel,
+  getProductsModel, createProductModel } = require('../models/products.model');
 
 const getProductsService = async () => {
   const allProducts = await getProductsModel();
@@ -14,7 +15,22 @@ const getProductByIdService = async (id) => {
   return { type: statusCode.OK, message: product[0] };
 };
 
+const createProductService = async (product) => {
+  if (!product.name) return { type: statusCode.BAD_REQUEST, message: statusCode.BAD_REQUEST };
+  if (product.name.length < 5) {
+    return {
+      type: statusCode.UNPROCESSABLE_ENTITY,
+      message: statusCode.UNPROCESSABLE_ENTITY,
+    }; 
+  }
+  const result = await createProductModel(product.name);
+  const { insertId } = result;
+
+  return { type: statusCode.CREATED, message: { id: insertId, name: product.name } };
+};
+
 module.exports = {
   getProductsService,
   getProductByIdService,
+  createProductService,
 };
