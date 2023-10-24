@@ -1,5 +1,6 @@
 const { getProductsService,
-  getProductByIdService, createProductService } = require('../services/products.services');
+  getProductByIdService,
+  createProductService, updateProductService } = require('../services/products.services');
 const statusCode = require('../utils/statuscode');
 
 const getProductsController = async (_req, res) => {
@@ -31,7 +32,6 @@ const createProductController = async (req, res) => {
     if (type === statusCode.BAD_REQUEST || type === statusCode.UNPROCESSABLE_ENTITY) {
       return res.status(type).json({ message });
     }
-
     return res.status(type).json(message);
   } catch (error) {
     return res.status(statusCode.INTERNAL_SERVER_ERROR)
@@ -39,8 +39,24 @@ const createProductController = async (req, res) => {
   }
 };
 
+const updateProductController = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name } = req.body;
+    const { type, message } = await updateProductService(id, name);
+    if (type === statusCode.OK) {
+      return res.status(type).json({ id: Number(id), name });
+    }
+    return res.status(type).json({ message });
+  } catch (error) {
+    return res.status(statusCode.INTERNAL_SERVER_ERROR)
+      .json({ error });
+  }
+};
+
 module.exports = {
   getProductsController,
   getProductByIdController,
   createProductController,
+  updateProductController,
 };

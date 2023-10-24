@@ -18,6 +18,15 @@ const createProductModel = async (productName) => {
     'INSERT INTO StoreManager.products (name) VALUES (?)',
     [productName],
   );
+  console.log(result);
+  return result;  
+};
+
+const updateProductModel = async (id, name) => {
+  const [result] = await connection.execute(
+    'UPDATE StoreManager.products SET name = ? WHERE id = ?',
+    [name, id],
+  );
   return result;
 };
 
@@ -25,4 +34,5 @@ module.exports = {
   getProductsModel,
   getProductsByIdModel,
   createProductModel,
+  updateProductModel,
 };

@@ -12,8 +12,13 @@ describe('Services Products', function () {
     const result = await productsServices.createProductService({ name: '<5' });
     expect(result).to.deep.equal({ type: statusCode.UNPROCESSABLE_ENTITY, message: '"name" length must be at least 5 characters long' });
   });
-  it('test', async function () {
-    const result = await productsServices.createProductService({ name: '' });
+  it('Error - name is required', async function () {
+    const result = await productsServices.updateProductService(1, ''); 
     expect(result).to.deep.equal({ type: statusCode.BAD_REQUEST, message: '"name" is required' });
   });
+  
+  it('Error - name length must be at least 5 characters long', async function () {
+    const result = await productsServices.updateProductService(2, 'ABC');
+    expect(result).to.deep.equal({ type: statusCode.UNPROCESSABLE_ENTITY, message: '"name" length must be at least 5 characters long' });
+  });  
 });
