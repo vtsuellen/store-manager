@@ -25,4 +25,12 @@ describe('Services Sales', function () {
     const result = await registerNewSalesServices([{ productId: 9999, quantity: 1 }]);
     expect(result).to.deep.equal({ type: statusCode.NOT_FOUND, message: 'Product not found' });
   });
+  it('Error - quantity is required', async function () {
+    const result = await registerNewSalesServices([{ productId: 1 }]);
+    expect(result).to.deep.equal({ type: statusCode.BAD_REQUEST, message: '"quantity" is required' });
+  });
+  it('Register new sales', async function () {
+    const result = await registerNewSalesServices([{ productId: 1, quantity: 1 }]);
+    expect(result).to.have.property('type').to.be.equal(statusCode.CREATED);
+  });
 });

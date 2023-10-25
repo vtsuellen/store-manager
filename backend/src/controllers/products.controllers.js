@@ -1,6 +1,7 @@
 const { getProductsService,
   getProductByIdService,
-  createProductService, updateProductService } = require('../services/products.services');
+  createProductService, 
+  updateProductService, deleteProductService } = require('../services/products.services');
 const statusCode = require('../utils/statuscode');
 
 const getProductsController = async (_req, res) => {
@@ -54,9 +55,24 @@ const updateProductController = async (req, res) => {
   }
 };
 
+const deleteProductController = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { type, message } = await deleteProductService(id);
+    if (type === statusCode.NOT_FOUND) {
+      return res.status(type).json({ message });
+    }
+    return res.status(type).json(message);
+  } catch (error) {
+    return res.status(statusCode.INTERNAL_SERVER_ERROR)
+      .json({ error });
+  }
+};
+
 module.exports = {
   getProductsController,
   getProductByIdController,
   createProductController,
   updateProductController,
+  deleteProductController,
 };

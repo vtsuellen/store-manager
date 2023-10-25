@@ -1,7 +1,8 @@
 const statusCode = require('../utils/statuscode');
 const { getProductsByIdModel,
   getProductsModel,
-  createProductModel, updateProductModel } = require('../models/products.model');
+  createProductModel,
+  updateProductModel, deleteProductModel } = require('../models/products.model');
 
 const getProductsService = async () => {
   const allProducts = await getProductsModel();
@@ -46,9 +47,19 @@ const updateProductService = async (id, name) => {
   return { type: statusCode.OK, message: { id, name } };
 };
 
+const deleteProductService = async (id) => {
+  const existingProduct = await getProductByIdService(id);
+  if (existingProduct.type === statusCode.NOT_FOUND) {
+    return { type: statusCode.NOT_FOUND, message: 'Product not found' };
+  }
+  await deleteProductModel(id);
+  return { type: statusCode.NO_CONTENT };
+};
+
 module.exports = {
   getProductsService,
   getProductByIdService,
   createProductService,
   updateProductService,
+  deleteProductService,
 };

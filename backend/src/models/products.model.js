@@ -18,7 +18,6 @@ const createProductModel = async (productName) => {
     'INSERT INTO StoreManager.products (name) VALUES (?)',
     [productName],
   );
-  console.log(result);
   return result;  
 };
 
@@ -30,9 +29,18 @@ const updateProductModel = async (id, name) => {
   return result;
 };
 
+const deleteProductModel = async (id) => {
+  const [result] = await connection.execute(
+    'DELETE FROM StoreManager.products WHERE id = ?',
+    [id],
+  );
+  return result;
+};
+
 module.exports = {
   getProductsModel,
   getProductsByIdModel,
   createProductModel,
   updateProductModel,
+  deleteProductModel,
 };
