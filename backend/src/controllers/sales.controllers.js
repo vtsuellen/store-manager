@@ -27,7 +27,8 @@ const getSalesByIdController = async (req, res) => {
 const RegisterNewSalesController = async (req, res) => {
   try {
     const { type, message } = await registerNewSalesServices(req.body);
-    return res.status(type).json(message);
+    if (type === statusCode.CREATED) return res.status(type).json(message);
+    return res.status(type).json({ message });
   } catch (error) {
     return res.status(statusCode.INTERNAL_SERVER_ERROR)
       .json({ error });
