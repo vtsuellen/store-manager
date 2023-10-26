@@ -31,7 +31,7 @@ const RegisterNewSalesController = async (req, res) => {
     return res.status(type).json({ message });
   } catch (error) {
     return res.status(statusCode.INTERNAL_SERVER_ERROR)
-      .json({ error });
+      .json({ error: statusCode.INTERNAL_SERVER_ERROR });
   }
 };
 
